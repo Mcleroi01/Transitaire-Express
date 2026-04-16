@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
-  Truck,
   Package,
   Users,
   LayoutDashboard,
@@ -12,9 +11,10 @@ import {
   Search,
   Bell,
   Shield,
+  DollarSign,
 } from "lucide-react";
 
-type Page = "overview" | "clients" | "colis" | "nouveau-colis";
+type Page = "overview" | "clients" | "colis" | "nouveau-colis" | "utilisateurs" | "tarifs";
 
 type Props = {
   children: React.ReactNode;
@@ -26,6 +26,8 @@ const navItems = [
   { id: "overview" as Page, label: "Tableau de bord", icon: LayoutDashboard },
   { id: "colis" as Page, label: "Gestion des colis", icon: Package },
   { id: "clients" as Page, label: "Clients", icon: Users },
+  { id: "utilisateurs" as Page, label: "Utilisateurs", icon: Shield, adminOnly: true },
+  { id: "tarifs" as Page, label: "Tarifs", icon: DollarSign, adminOnly: true },
 ];
 
 export default function DashboardLayout({
@@ -35,6 +37,8 @@ export default function DashboardLayout({
 }: Props) {
   const { profile, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  console.log("User Profile:", profile); // Debugging line to check profile data
 
   const isAdmin = profile?.role === "admin";
 
@@ -50,23 +54,49 @@ export default function DashboardLayout({
         `}
       >
         {/* Logo Section */}
-        <div className="p-5 border-b border-[#F97316]/20 bg-gradient-to-r from-[#0A1628]/50 to-[#0D2545]/50 backdrop-blur-sm">
+        <div className="p-5 border-b border-[#F97316]/20 bg-gradient-to-r from-[#0A1628]/80 to-[#0D2545]/80 backdrop-blur-md">
           <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="relative w-10 h-10 bg-gradient-to-br from-[#F97316] to-orange-500 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-orange-500/40 group-hover:shadow-orange-500/60 transition-all duration-300 group-hover:scale-110">
-              <Truck className="w-5 h-5 text-white group-hover:rotate-12 transition-transform duration-300" />
+            <div className="relative w-14 h-14  bg-white  flex items-center justify-center shrink-0 shadow-xl shadow-orange-500/50 group-hover:shadow-orange-500/70 transition-all duration-300 group-hover:scale-125 group-hover:-rotate-6 overflow-hidden">
+              {/* Animated Background Glow */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+
+              {/* Logo Image */}
+              <img
+                src="./logo.png"
+                alt="Transitaire Express"
+                className="w-14 h-14 object-contain relative z-10 group-hover:scale-110 transition-transform duration-300"
+              />
+
+              {/* Shine Effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-white via-transparent to-white opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-300 rounded-2xl" />
             </div>
-            <div className="group-hover:translate-x-1 transition-transform duration-300">
-              <h1 className="text-white font-bold text-sm leading-tight">
+
+            <div className="group-hover:translate-x-1 transition-transform duration-300 flex-1">
+              <h1 className="text-white font-bold text-sm leading-tight group-hover:text-orange-300 transition-colors duration-300">
                 Transitaire Express
               </h1>
-              <p className="text-blue-400 text-xs font-medium">Dashboard</p>
+              <p className="text-blue-400 text-xs font-semibold group-hover:text-[#F97316] transition-colors duration-300">
+                Dashboard Pro
+              </p>
+            </div>
+
+            {/* Decorative Element */}
+            <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="w-1.5 h-6 bg-gradient-to-b from-[#F97316] to-orange-500 rounded-full shadow-lg shadow-orange-500/40" />
             </div>
           </div>
         </div>
 
         {/* Navigation Menu */}
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-          {navItems.map((item) => {
+          {navItems.filter(item => {
+            // Pour les agents, ne montrer que les pages autorisées
+            if (!isAdmin) {
+              return ['overview', 'colis', 'nouveau-colis'].includes(item.id);
+            }
+            // Pour les admins, montrer tout sauf les éléments adminOnly qui ne sont pas admin
+            return !item.adminOnly || isAdmin;
+          }).map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
             return (
@@ -195,12 +225,20 @@ export default function DashboardLayout({
                 {currentPage === "nouveau-colis" && (
                   <Package className="w-5 h-5 text-[#F97316]" />
                 )}
+                {currentPage === "utilisateurs" && (
+                  <Shield className="w-5 h-5 text-[#F97316]" />
+                )}
+                {currentPage === "tarifs" && (
+                  <DollarSign className="w-5 h-5 text-[#F97316]" />
+                )}
               </div>
               <h2 className="font-bold text-gray-900 text-lg">
                 {currentPage === "overview" && "Tableau de bord"}
                 {currentPage === "colis" && "Gestion des colis"}
                 {currentPage === "clients" && "Gestion des clients"}
                 {currentPage === "nouveau-colis" && "Nouveau colis"}
+                {currentPage === "utilisateurs" && "Gestion des utilisateurs"}
+                {currentPage === "tarifs" && "Gestion des tarifs"}
               </h2>
             </div>
 

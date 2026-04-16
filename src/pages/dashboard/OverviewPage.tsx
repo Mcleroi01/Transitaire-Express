@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/contexts/AuthContext';
 import { Package, Users, TrendingUp, Clock, ArrowRight, CircleCheck as CheckCircle2 } from 'lucide-react';
 import type { ColisWithRelations } from '@/lib/types';
 import { format } from 'date-fns';
@@ -17,6 +18,8 @@ type Props = {
 };
 
 export default function OverviewPage({ onNavigate }: Props) {
+  const { profile } = useAuth();
+  const isAdmin = profile?.role === 'admin';
   const [stats, setStats] = useState<Stats>({ totalColis: 0, totalClients: 0, colisEnRoute: 0, colisLivres: 0 });
   const [recentColis, setRecentColis] = useState<ColisWithRelations[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,7 +51,7 @@ export default function OverviewPage({ onNavigate }: Props) {
     loadData();
   }, []);
 
-  const statCards = [
+  const statCards = isAdmin ? [
     {
       label: 'Total colis',
       value: stats.totalColis,
@@ -77,12 +80,35 @@ export default function OverviewPage({ onNavigate }: Props) {
       color: 'bg-green-500',
       light: 'bg-green-50 text-green-600',
     },
+  ] : [
+    {
+      label: 'Total colis',
+      value: stats.totalColis,
+      icon: Package,
+      color: 'bg-blue-500',
+      light: 'bg-blue-50 text-blue-600',
+    },
+    {
+      label: 'En transit',
+      value: stats.colisEnRoute,
+      icon: TrendingUp,
+      color: 'bg-cyan-500',
+      light: 'bg-cyan-50 text-cyan-600',
+    },
+    {
+      label: 'Livrés',
+      value: stats.colisLivres,
+      icon: CheckCircle2,
+      color: 'bg-green-500',
+      light: 'bg-green-50 text-green-600',
+    },
   ];
 
   if (loading) {
+    const cardCount = isAdmin ? 4 : 3;
     return (
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {[...Array(4)].map((_, i) => (
+      <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${cardCount} gap-4 mb-8`}>
+        {[...Array(cardCount)].map((_, i) => (
           <div key={i} className="bg-white rounded-2xl p-5 border border-gray-200 animate-pulse">
             <div className="h-4 bg-gray-100 rounded w-24 mb-3" />
             <div className="h-8 bg-gray-100 rounded w-16" />
@@ -94,7 +120,7 @@ export default function OverviewPage({ onNavigate }: Props) {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${isAdmin ? 4 : 3} gap-4`}>
         {statCards.map((card) => {
           const Icon = card.icon;
           return (

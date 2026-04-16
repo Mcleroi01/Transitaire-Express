@@ -1,13 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Transitaire Express — Suivi de colis Chine / Kinshasa</title>
-    <meta property="og:image" content="https://bolt.new/static/og_default.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://bolt.new/static/og_default.png" />
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./logo.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./logo.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./logo.png" />
+    <link rel="shortcut icon" href="./logo.png" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Transitaire Express - Solution Logistique Chine-Kinshasa | Suivi de Colis en Temps Réel</title>
+    <meta name="title" content="Transitaire Express - Solution Logistique Chine-Kinshasa | Suivi de Colis en Temps Réel" />
+    <meta name="description" content="Transitaire Express : Votre partenaire logistique expert pour l'acheminement de colis entre la Chine et Kinshasa. Suivi en temps réel, gestion simplifiée, livraison garantie. Service professionnel et fiable pour tous vos envois internationaux." />
+    <meta name="keywords" content="transitaire, logistique, Chine, Kinshasa, RDC, suivi colis, fret international, livraison, transport maritime, import-export, douane, entreposage" />
+    <meta name="author" content="Transitaire Express" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="fr" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://transitaire-express.com/" />
+    <meta property="og:title" content="Transitaire Express - Solution Logistique Chine-Kinshasa | Suivi de Colis en Temps Réel" />
+    <meta property="og:description" content="Transitaire Express : Votre partenaire logistique expert pour l'acheminement de colis entre la Chine et Kinshasa. Suivi en temps réel, gestion simplifiée, livraison garantie." />
+    <meta property="og:image" content="./logo.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Transitaire Express - Logo" />
+    <meta property="og:site_name" content="Transitaire Express" />
+    <meta property="og:locale" content="fr_FR" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://transitaire-express.com/" />
+    <meta property="twitter:title" content="Transitaire Express - Solution Logistique Chine-Kinshasa" />
+    <meta property="twitter:description" content="Votre partenaire logistique expert pour l'acheminement de colis entre la Chine et Kinshasa. Suivi en temps réel, livraison garantie." />
+    <meta property="twitter:image" content="./logo.png" />
+    <meta property="twitter:image:alt" content="Transitaire Express - Logo" />
+    <meta property="twitter:creator" content="@TransitaireExpress" />
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#F97316" />
+    <meta name="msapplication-TileColor" content="#F97316" />
+    <meta name="application-name" content="Transitaire Express" />
+    <meta name="apple-mobile-web-app-title" content="Transitaire Express" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LogisticsService",
+      "name": "Transitaire Express",
+      "description": "Solution logistique professionnelle pour l'acheminement de colis entre la Chine et Kinshasa",
+      "url": "https://transitaire-express.com",
+      "logo": "./logo.png",
+      "image": "./logo.png",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Kinshasa",
+        "addressCountry": "CD"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "-4.4419",
+        "longitude": "15.2663"
+      },
+      "telephone": "+243 XXX XXX XXX",
+      "email": "contact@transitaire-express.com",
+      "serviceType": "Freight Transportation",
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "Chine"
+        },
+        {
+          "@type": "Country", 
+          "name": "République Démocratique du Congo"
+        }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Services Logistiques",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Suivi de colis en temps réel"
+            }
+          },
+          {
+            "@type": "Offer", 
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Transport maritime Chine-Kinshasa"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service", 
+              "name": "Gestion douanière"
+            }
+          }
+        ]
+      },
+      "openingHours": "Mo-Fr 08:00-18:00",
+      "priceRange": "$$"
+    }
+    </script>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="//supabase.co" />
   </head>
   <body>
     <div id="root"></div>

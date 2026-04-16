@@ -53,7 +53,8 @@ type DetailedColis = ColisWithRelations & {
 };
 
 export default function ColisPage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
+  const isAdmin = profile?.role === 'admin';
   const [colis, setColis] = useState<ColisWithRelations[]>([]);
   const [statuts, setStatuts] = useState<Statut[]>([]);
   const [loading, setLoading] = useState(true);
@@ -162,7 +163,7 @@ export default function ColisPage() {
                 Gestion des colis
               </h1>
               <p className="text-blue-300 text-sm">
-                {filtered.length} colis trouvé(s)
+                {filtered.length} colis trouvé(s) {!isAdmin && <span className="text-orange-300">· Mode Agent</span>}
               </p>
             </div>
           </div>
@@ -365,14 +366,16 @@ export default function ColisPage() {
                           <Pencil className="w-4 h-4" />
                           <span className="hidden sm:inline">Éditer</span>
                         </button>
-                        <button
-                          onClick={() => setDeleteId(c.id)}
-                          className="px-3 py-2 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 transition-all duration-150 group flex items-center gap-1.5 text-sm font-medium"
-                          title="Supprimer"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                          <span className="hidden sm:inline">Suppr.</span>
-                        </button>
+                        {isAdmin && (
+                          <button
+                            onClick={() => setDeleteId(c.id)}
+                            className="px-3 py-2 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 transition-all duration-150 group flex items-center gap-1.5 text-sm font-medium"
+                            title="Supprimer"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            <span className="hidden sm:inline">Suppr.</span>
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
