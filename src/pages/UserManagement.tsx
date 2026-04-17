@@ -93,7 +93,6 @@ export default function UserManagement() {
         .from("profiles")
         .select("*")
         .order("created_at", { ascending: true });
-      console.log("Fetched users:", data);
       if (error) throw error;
       setUsers(data || []);
     } catch (error) {
