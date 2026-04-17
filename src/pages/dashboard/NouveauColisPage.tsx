@@ -604,9 +604,9 @@ export default function NouveauColisPage({ onSuccess, editColis }: Props) {
                       <Label>Entrepôt actuel</Label>
                       <Input
                         placeholder="Ex: Entrepôt Guangzhou"
-                        value={form.entrepot_actuel}
+                        value="Entrepôt Guangzhou" disabled
                         onChange={(e) =>
-                          setForm({ ...form, entrepot_actuel: e.target.value })
+                          setForm({ ...form, entrepot_actuel: e.target.value }) 
                         }
                       />
                     </div>

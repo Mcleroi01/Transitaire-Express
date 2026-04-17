@@ -14,7 +14,7 @@ import {
   DollarSign,
 } from "lucide-react";
 
-type Page = "overview" | "clients" | "colis" | "nouveau-colis" | "utilisateurs" | "tarifs";
+type Page = "overview" | "clients" | "colis" | "nouveau-colis" | "utilisateurs" | "tarifs" | "profile";
 
 type Props = {
   children: React.ReactNode;
@@ -28,6 +28,7 @@ const navItems = [
   { id: "clients" as Page, label: "Clients", icon: Users },
   { id: "utilisateurs" as Page, label: "Utilisateurs", icon: Shield, adminOnly: true },
   { id: "tarifs" as Page, label: "Tarifs", icon: DollarSign, adminOnly: true },
+  { id: "profile" as Page, label: "Mon Profil", icon: Users },
 ];
 
 export default function DashboardLayout({
@@ -37,8 +38,7 @@ export default function DashboardLayout({
 }: Props) {
   const { profile, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  console.log("User Profile:", profile); // Debugging line to check profile data
+// Debugging line to check profile data
 
   const isAdmin = profile?.role === "admin";
 
@@ -231,6 +231,9 @@ export default function DashboardLayout({
                 {currentPage === "tarifs" && (
                   <DollarSign className="w-5 h-5 text-[#F97316]" />
                 )}
+                {currentPage === "profile" && (
+                  <Users className="w-5 h-5 text-[#F97316]" />
+                )}
               </div>
               <h2 className="font-bold text-gray-900 text-lg">
                 {currentPage === "overview" && "Tableau de bord"}
@@ -239,6 +242,7 @@ export default function DashboardLayout({
                 {currentPage === "nouveau-colis" && "Nouveau colis"}
                 {currentPage === "utilisateurs" && "Gestion des utilisateurs"}
                 {currentPage === "tarifs" && "Gestion des tarifs"}
+                {currentPage === "profile" && "Mon Profil"}
               </h2>
             </div>
 

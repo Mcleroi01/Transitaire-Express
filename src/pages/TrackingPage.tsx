@@ -15,7 +15,6 @@ import {
   Calendar,
   Weight,
   Hash,
-  ArrowRight,
 } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -23,16 +22,6 @@ import { fr } from "date-fns/locale";
 type TrackingData = {
   colis: ColisWithRelations;
   historique: (HistoriqueStatut & { statuts: Statut })[];
-};
-
-const STATUS_ICONS: Record<string, React.ReactNode> = {
-  "Reçu en Chine": <Package className="w-4 h-4" />,
-  "En préparation": <Clock className="w-4 h-4" />,
-  Expédié: <Truck className="w-4 h-4" />,
-  "En transit": <ArrowRight className="w-4 h-4" />,
-  "Arrivé à Kinshasa": <MapPin className="w-4 h-4" />,
-  Disponible: <CheckCircle2 className="w-4 h-4" />,
-  Livré: <CheckCircle2 className="w-4 h-4" />,
 };
 
 export default function TrackingPage() {
@@ -362,25 +351,31 @@ export default function TrackingPage() {
 
           {result && (
             <div className="space-y-6">
-              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="bg-gradient-to-r from-[#0A1628] to-[#0D2545] px-6 py-5">
+              <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                {/* Header avec gradient */}
+                <div className="bg-gradient-to-r from-[#0A1628] to-[#0D2545] px-6 py-6">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <Hash className="w-4 h-4 text-[#F97316]" />
-                        <span className="text-[#F97316] font-mono font-bold text-lg">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center">
+                          <Hash className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-[#F97316] font-mono font-bold text-xl">
                           {result.colis.tracking_interne}
                         </span>
                       </div>
                       {result.colis.tracking_fournisseur && (
-                        <p className="text-blue-300 text-sm">
-                          Réf. fournisseur: {result.colis.tracking_fournisseur}
+                        <p className="text-blue-200 text-sm ml-13">
+                          Réf. fournisseur:{" "}
+                          <span className="font-mono font-semibold">
+                            {result.colis.tracking_fournisseur}
+                          </span>
                         </p>
                       )}
                     </div>
                     {result.colis.statuts && (
                       <span
-                        className="px-4 py-1.5 rounded-full text-sm font-semibold text-white shadow-sm shrink-0"
+                        className="px-4 py-2 rounded-lg text-sm font-bold text-white shadow-lg whitespace-nowrap"
                         style={{
                           backgroundColor: result.colis.statuts.couleur,
                         }}
@@ -391,24 +386,29 @@ export default function TrackingPage() {
                   </div>
                 </div>
 
-                <div className="px-6 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 border-b border-gray-100">
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Client</p>
-                    <p className="font-semibold text-gray-800 text-sm">
+                {/* Grille d'informations - Améliorée */}
+                <div className="px-6 py-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 border-b border-gray-100 bg-gray-50/30">
+                  <div className="space-y-1.5">
+                    <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">
+                      Client
+                    </p>
+                    <p className="font-bold text-gray-900 text-sm">
                       {result.colis.clients?.nom}
                     </p>
                   </div>
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Catégorie</p>
-                    <p className="font-semibold text-gray-800 text-sm">
+                  <div className="space-y-1.5">
+                    <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">
+                      Catégorie
+                    </p>
+                    <p className="font-bold text-gray-900 text-sm">
                       {result.colis.categories_colis?.nom ?? "—"}
                     </p>
                   </div>
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                  <div className="space-y-1.5">
+                    <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider flex items-center gap-1">
                       <Weight className="w-3 h-3" /> Poids / Qté
                     </p>
-                    <p className="font-semibold text-gray-800 text-sm">
+                    <p className="font-bold text-gray-900 text-sm">
                       {result.colis.poids
                         ? `${result.colis.poids} kg`
                         : result.colis.quantite
@@ -416,48 +416,80 @@ export default function TrackingPage() {
                           : "—"}
                     </p>
                   </div>
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Entrepôt</p>
-                    <p className="font-semibold text-gray-800 text-sm">
+                  <div className="space-y-1.5">
+                    <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">
+                      Entrepôt
+                    </p>
+                    <p className="font-bold text-gray-900 text-sm">
                       {result.colis.entrepot_actuel || "—"}
                     </p>
                   </div>
+                  <div className="space-y-1.5 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-3 border border-green-100">
+                    <p className="text-xs text-green-700 font-bold uppercase tracking-wider">
+                      Prix à Payer
+                    </p>
+                    <p className="font-bold text-green-900 text-lg">
+                      {result.colis.prix_total
+                        ? `${new Intl.NumberFormat("fr-FR", { style: "currency", currency: result.colis.devise || "USD" }).format(result.colis.prix_total)}`
+                        : "—"}
+                    </p>
+                    {result.colis.devise && (
+                      <span className="text-xs text-green-600 font-medium">
+                        {result.colis.devise}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
+                {/* Dates importantes */}
                 {(result.colis.date_reception_chine ||
                   result.colis.date_arrivee_kinshasa) && (
-                  <div className="px-6 py-4 flex flex-wrap gap-6 border-b border-gray-100 bg-gray-50/50">
+                  <div className="px-6 py-4 flex flex-wrap gap-6 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-cyan-50">
                     {result.colis.date_reception_chine && (
-                      <div className="flex items-center gap-2 text-sm">
-                        <Calendar className="w-4 h-4 text-[#F97316]" />
-                        <span className="text-gray-600">Réception Chine:</span>
-                        <span className="font-medium text-gray-800">
-                          {format(
-                            new Date(result.colis.date_reception_chine),
-                            "dd MMM yyyy",
-                            { locale: fr },
-                          )}
-                        </span>
+                      <div className="flex items-center gap-3 text-sm">
+                        <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                          <Calendar className="w-4 h-4 text-[#F97316]" />
+                        </div>
+                        <div>
+                          <p className="text-gray-600 text-xs font-semibold">
+                            Réception Chine
+                          </p>
+                          <span className="font-bold text-gray-900">
+                            {format(
+                              new Date(result.colis.date_reception_chine),
+                              "dd MMM yyyy",
+                              { locale: fr },
+                            )}
+                          </span>
+                        </div>
                       </div>
                     )}
                     {result.colis.date_arrivee_kinshasa && (
-                      <div className="flex items-center gap-2 text-sm">
-                        <Calendar className="w-4 h-4 text-blue-500" />
-                        <span className="text-gray-600">Arrivée Kinshasa:</span>
-                        <span className="font-medium text-gray-800">
-                          {format(
-                            new Date(result.colis.date_arrivee_kinshasa),
-                            "dd MMM yyyy",
-                            { locale: fr },
-                          )}
-                        </span>
+                      <div className="flex items-center gap-3 text-sm">
+                        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                          <Calendar className="w-4 h-4 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="text-gray-600 text-xs font-semibold">
+                            Arrivée Kinshasa
+                          </p>
+                          <span className="font-bold text-gray-900">
+                            {format(
+                              new Date(result.colis.date_arrivee_kinshasa),
+                              "dd MMM yyyy",
+                              { locale: fr },
+                            )}
+                          </span>
+                        </div>
                       </div>
                     )}
                   </div>
                 )}
 
-                <div className="px-6 py-6">
-                  <h3 className="font-semibold text-gray-700 mb-6 text-sm uppercase tracking-wider">
+                {/* Timeline - Progression du colis */}
+                <div className="px-6 py-8">
+                  <h3 className="font-bold text-gray-900 mb-8 text-sm uppercase tracking-widest flex items-center gap-2">
+                    <div className="w-1 h-6 bg-gradient-to-b from-[#F97316] to-blue-500 rounded-full"></div>
                     Progression du colis
                   </h3>
                   <div className="relative">
@@ -470,21 +502,19 @@ export default function TrackingPage() {
                         <div key={s.nom} className="flex gap-4">
                           <div className="flex flex-col items-center">
                             <div
-                              className={`w-9 h-9 rounded-full flex items-center justify-center z-10 transition-all duration-300 shrink-0 ${
+                              className={`w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all duration-300 shrink-0 font-bold text-sm ${
                                 isCurrent
-                                  ? "bg-[#F97316] text-white shadow-lg shadow-orange-200 scale-110 ring-4 ring-orange-100"
+                                  ? "bg-gradient-to-br from-[#F97316] to-orange-600 text-white shadow-lg shadow-orange-300 scale-110 ring-4 ring-orange-100"
                                   : isDone
-                                    ? "bg-[#0A1628] text-white"
-                                    : "bg-gray-100 text-gray-400"
+                                    ? "bg-gradient-to-br from-blue-400 to-blue-600 text-white"
+                                    : "bg-gray-200 text-gray-400"
                               }`}
                             >
-                              {STATUS_ICONS[s.nom] || (
-                                <Package className="w-4 h-4" />
-                              )}
+                              {idx + 1}
                             </div>
                             {!isLast && (
                               <div
-                                className={`w-0.5 h-10 mt-1 ${isDone ? "bg-[#0A1628]" : "bg-gray-200"}`}
+                                className={`w-1 h-12 mt-2 ${isDone ? "bg-gradient-to-b from-blue-500 to-blue-400" : "bg-gray-200"}`}
                               />
                             )}
                           </div>
@@ -492,7 +522,7 @@ export default function TrackingPage() {
                             className={`pb-8 ${isLast ? "pb-0" : ""} pt-1.5`}
                           >
                             <p
-                              className={`font-semibold text-sm ${
+                              className={`font-bold text-sm ${
                                 isCurrent
                                   ? "text-[#F97316]"
                                   : isDone
@@ -502,8 +532,8 @@ export default function TrackingPage() {
                             >
                               {s.nom}
                               {isCurrent && (
-                                <span className="ml-2 bg-[#F97316]/10 text-[#F97316] text-xs px-2 py-0.5 rounded-full font-medium">
-                                  Statut actuel
+                                <span className="ml-3 inline-flex bg-[#F97316] text-white text-xs px-3 py-1 rounded-full font-bold animate-pulse">
+                                  ● En cours
                                 </span>
                               )}
                             </p>
@@ -514,15 +544,17 @@ export default function TrackingPage() {
                                   .filter((h) => h.statuts?.nom === s.nom)
                                   .at(-1);
                                 return lastHistorique ? (
-                                  <p className="text-xs text-gray-500 mt-0.5">
-                                    {format(
-                                      new Date(lastHistorique.created_at),
-                                      "dd MMM yyyy à HH:mm",
-                                      { locale: fr },
-                                    )}
+                                  <p className="text-xs text-gray-600 mt-2 font-medium">
+                                    <span className="text-blue-600 font-bold">
+                                      {format(
+                                        new Date(lastHistorique.created_at),
+                                        "dd MMM yyyy 'à' HH:mm",
+                                        { locale: fr },
+                                      )}
+                                    </span>
                                     {lastHistorique.commentaire && (
-                                      <span className="ml-2 italic">
-                                        — {lastHistorique.commentaire}
+                                      <span className="block mt-1 text-gray-600 italic">
+                                        💬 {lastHistorique.commentaire}
                                       </span>
                                     )}
                                   </p>
@@ -536,38 +568,50 @@ export default function TrackingPage() {
                 </div>
               </div>
 
+              {/* Historique des mises à jour */}
               {result.historique.length > 0 && (
-                <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-                  <h3 className="font-semibold text-gray-700 mb-5 text-sm uppercase tracking-wider">
-                    Historique des mises à jour
-                  </h3>
-                  <div className="space-y-4">
+                <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                  <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                    <h3 className="font-bold text-gray-900 text-sm uppercase tracking-widest flex items-center gap-2">
+                      <Clock className="w-5 h-5 text-blue-600" />
+                      Historique des mises à jour ({result.historique.length})
+                    </h3>
+                  </div>
+                  <div className="divide-y divide-gray-100">
                     {[...result.historique].reverse().map((h) => (
-                      <div key={h.id} className="flex gap-4 items-start">
-                        <div
-                          className="w-2.5 h-2.5 rounded-full mt-1.5 shrink-0"
-                          style={{
-                            backgroundColor: h.statuts?.couleur ?? "#6B7280",
-                          }}
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-semibold text-gray-800 text-sm">
-                              {h.statuts?.nom}
-                            </span>
-                            <span className="text-gray-400 text-xs">
-                              {format(
-                                new Date(h.created_at),
-                                "dd MMM yyyy à HH:mm",
-                                { locale: fr },
-                              )}
-                            </span>
+                      <div
+                        key={h.id}
+                        className="px-6 py-4 hover:bg-gray-50/50 transition-colors"
+                      >
+                        <div className="flex gap-4">
+                          <div
+                            className="w-3 h-3 rounded-full mt-1.5 shrink-0 shadow-sm border-2 border-white"
+                            style={{
+                              backgroundColor: h.statuts?.couleur ?? "#6B7280",
+                            }}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="font-bold text-gray-900 text-sm">
+                                {h.statuts?.nom}
+                              </span>
+                              <span className="text-gray-500 text-xs font-medium bg-gray-100 px-2 py-1 rounded">
+                                {format(
+                                  new Date(h.created_at),
+                                  "dd MMM yyyy 'à' HH:mm",
+                                  { locale: fr },
+                                )}
+                              </span>
+                            </div>
+                            {h.commentaire && (
+                              <p
+                                className="text-gray-700 text-sm mt-2 bg-gray-50 px-3 py-2 rounded-lg border-l-2"
+                                style={{ borderColor: h.statuts?.couleur }}
+                              >
+                                💬 {h.commentaire}
+                              </p>
+                            )}
                           </div>
-                          {h.commentaire && (
-                            <p className="text-gray-600 text-sm mt-0.5">
-                              {h.commentaire}
-                            </p>
-                          )}
                         </div>
                       </div>
                     ))}

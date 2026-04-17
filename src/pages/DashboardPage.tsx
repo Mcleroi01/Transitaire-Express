@@ -6,8 +6,9 @@ import ColisPage from './dashboard/ColisPage';
 import NouveauColisPage from './dashboard/NouveauColisPage';
 import UserManagement from './UserManagement';
 import TarifManagement from './TarifManagement';
+import ProfilePage from './ProfilePage';
 
-type Page = 'overview' | 'clients' | 'colis' | 'nouveau-colis' | 'utilisateurs' | 'tarifs';
+type Page = 'overview' | 'clients' | 'colis' | 'nouveau-colis' | 'utilisateurs' | 'tarifs' | 'profile';
 
 export default function DashboardPage() {
   const [currentPage, setCurrentPage] = useState<Page>('overview');
@@ -28,6 +29,8 @@ export default function DashboardPage() {
         return <UserManagement />;
       case 'tarifs':
         return <TarifManagement />;
+      case 'profile':
+        return <ProfilePage />;
       default:
         return <OverviewPage onNavigate={handleNavigate} />;
     }
