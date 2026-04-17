@@ -1,14 +1,16 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "transitaire-express",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "netlify:build": "npm run build",
+    "netlify:dev": "npm run dev"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
