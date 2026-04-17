@@ -110,15 +110,13 @@ export default function UserManagement() {
 
     try {
       // Créer l'utilisateur sans déconnecter l'admin
-      const result = await createUserWithoutSession({
+      await createUserWithoutSession({
         email: createFormData.email,
         password: createFormData.password,
         nom: createFormData.nom,
         telephone: createFormData.telephone,
         role: createFormData.role,
       });
-
-    
 
       // Le profil sera créé automatiquement par le trigger
       toast.success("Utilisateur créé avec succès");
